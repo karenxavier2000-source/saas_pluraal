@@ -1,0 +1,341 @@
+/* PAAEB layout: keep the existing content while giving every section a clear rhythm. */
+#viewPaaeb {
+  padding: clamp(1rem, 2.2vw, 2rem);
+}
+
+#viewPaaeb .paaeb-grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+  min-width: 0;
+}
+
+#viewPaaeb .paaeb-loading {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  color: #475569;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+}
+
+#viewPaaeb .paaeb-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+#viewPaaeb .paaeb-grid > div {
+  min-width: 0;
+  margin-bottom: 0 !important;
+}
+
+#viewPaaeb .paaeb-grid > div:first-child {
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  border-radius: 16px !important;
+  border-image: none !important;
+  border-bottom: 5px solid #60a5fa !important;
+}
+
+
+#viewPaaeb .paaeb-filters {
+  gap: .75rem !important;
+  padding: 1.25rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 6px 20px rgba(30, 41, 59, .04);
+}
+
+#viewPaaeb .paaeb-filters select {
+  min-width: 0 !important;
+  min-height: 42px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+#viewPaaeb .paaeb-filters select:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+#viewPaaeb .paaeb-periods {
+  flex: 1 0 100%;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+#viewPaaeb .paaeb-periods-heading {
+  color: #475569;
+  font-size: .78rem;
+  font-weight: 700;
+  margin-bottom: .7rem;
+}
+
+#viewPaaeb .paaeb-periods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .6rem;
+}
+
+#viewPaaeb .paaeb-period {
+  min-width: 0;
+  padding: .65rem .8rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+
+#viewPaaeb .paaeb-period strong,
+#viewPaaeb .paaeb-period span {
+  display: block;
+}
+
+#viewPaaeb .paaeb-period strong {
+  color: #334155;
+  margin-bottom: .25rem;
+}
+
+#viewPaaeb .paaeb-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+#viewPaaeb .paaeb-summary > h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 .25rem !important;
+}
+
+#viewPaaeb .paaeb-summary > div {
+  display: contents !important;
+}
+
+#viewPaaeb .paaeb-summary > div > div {
+  width: auto !important;
+  min-width: 0;
+  min-height: 128px;
+  padding: 1.25rem !important;
+  border-radius: 12px !important;
+  text-align: left !important;
+  box-shadow: 0 6px 18px rgba(30, 41, 59, .035);
+}
+
+#viewPaaeb .paaeb-summary > div > div > div:first-of-type {
+  font-size: clamp(1.35rem, 2vw, 1.8rem) !important;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  margin-top: .6rem;
+  margin-bottom: .65rem !important;
+}
+
+#viewPaaeb .paaeb-summary > div > div > div:last-child {
+  font-size: .8rem !important;
+  line-height: 1.35;
+}
+
+/* The old ellipsis marks were decorative and looked like broken menus. */
+#viewPaaeb span[style*="letter-spacing: 1px"] {
+  display: none !important;
+}
+
+#viewPaaeb .paaeb-grid > div > h3 {
+  line-height: 1.35;
+}
+
+#viewPaaeb .paaeb-grid > div:not(:first-child):not(.paaeb-filters):not(.paaeb-summary) {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#viewPaaeb .paaeb-grid > div:not(:first-child):not(.paaeb-filters):not(.paaeb-summary) > h3,
+#viewPaaeb .paaeb-grid > div:not(:first-child):not(.paaeb-filters):not(.paaeb-summary) > h4,
+#viewPaaeb .paaeb-grid > div:not(:first-child):not(.paaeb-filters):not(.paaeb-summary) > p {
+  margin-bottom: 0 !important;
+}
+
+#viewPaaeb .paaeb-grid > div:not(:first-child):not(.paaeb-filters):not(.paaeb-summary) > div[style*="border: 1px solid"] {
+  margin-bottom: 0 !important;
+  border-radius: 12px !important;
+  padding: clamp(1.1rem, 2vw, 1.75rem) !important;
+  min-width: 0;
+}
+
+#viewPaaeb .paaeb-grid > div > div[style*="border: 1px solid"] p:last-child,
+#viewPaaeb .paaeb-grid > div > div[style*="border: 1px solid"] ul:last-child {
+  margin-bottom: 0 !important;
+}
+
+#viewPaaeb .paaeb-grid > div > div[style*="display: flex"][style*="gap: 1rem"] {
+  flex-wrap: wrap;
+}
+
+#viewPaaeb .paaeb-grid > div > div[style*="display: flex"][style*="gap: 1rem"] > div[style*="flex: 1"] {
+  min-width: min(100%, 330px);
+}
+
+#viewPaaeb .paaeb-grid > div:last-child > div:last-child > div {
+  overflow-x: auto;
+}
+
+#viewPaaeb table {
+  line-height: 1.45;
+}
+
+#viewPaaeb .paaeb-scale-table {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+#viewPaaeb .paaeb-scale-table table {
+  min-width: 540px;
+}
+
+#viewPaaeb th,
+#viewPaaeb td {
+  vertical-align: top;
+}
+
+#viewPaaeb .paaeb-student-key {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin-bottom: .5rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#viewPaaeb .paaeb-student-dot {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+#viewPaaeb .paaeb-bar-chart {
+  justify-content: flex-start !important;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 1.5rem 2rem 2rem !important;
+}
+
+#viewPaaeb .paaeb-bar-chart > div[style*="height: 300px"] {
+  flex: 0 0 60px;
+}
+
+#viewPaaeb .paaeb-history-card {
+  width: 100%;
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(30, 41, 59, .035);
+}
+
+#viewPaaeb .paaeb-history-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .75rem 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #edf1f6;
+}
+
+#viewPaaeb .paaeb-history-series {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: #334155;
+  font-size: .85rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+#viewPaaeb .paaeb-history-series strong {
+  margin-left: .35rem;
+  font-size: 1.1rem;
+  color: #172554;
+}
+
+#viewPaaeb .paaeb-history-series small {
+  color: #94a3b8;
+  font-size: .7rem;
+  font-weight: 600;
+}
+
+#viewPaaeb .paaeb-history-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+  background: #c67610;
+}
+
+#viewPaaeb .paaeb-history-language .paaeb-history-dot {
+  background: #5554e8;
+}
+
+#viewPaaeb .paaeb-history-plot {
+  width: 100%;
+  min-width: 0;
+  height: 240px;
+  margin-top: .75rem;
+}
+
+#viewPaaeb .paaeb-history-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#viewPaaeb .paaeb-history-svg circle:focus-visible {
+  stroke-width: 4;
+}
+
+#viewPaaeb .paaeb-error {
+  padding: 1.25rem;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+@media (max-width: 1100px) {
+  #viewPaaeb .paaeb-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 1024px) {
+  #viewPaaeb .paaeb-filters > div:first-child { flex-basis: 100%; }
+  #viewPaaeb .paaeb-filters select { flex: 1 1 calc(50% - .5rem) !important; min-width: 0 !important; }
+}
+
+@media (max-width: 760px) {
+  #viewPaaeb .paaeb-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #viewPaaeb .paaeb-periods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #viewPaaeb .paaeb-filters > div { flex-basis: 100%; }
+  #viewPaaeb .paaeb-filters select { flex-basis: 100% !important; }
+  #viewPaaeb .paaeb-hero-actions { display: grid !important; grid-template-columns: 1fr; width: 100%; }
+  #viewPaaeb .paaeb-hero-actions button { width: 100%; min-height: 44px; justify-content: center; }
+  #viewPaaeb .paaeb-scatter-layout { flex-direction: column !important; min-height: 0 !important; padding: 1rem !important; }
+  #viewPaaeb .paaeb-scatter-legend { width: 100% !important; max-height: 170px !important; padding: 2rem 0 0 !important; }
+  #viewPaaeb #scatterPlotContainer { flex: none !important; width: calc(100% - 65px) !important; min-width: 0 !important; height: 220px; margin-left: 65px !important; }
+  #viewPaaeb #scatterAnalysisContainer, #viewPaaeb #scatterAnalysisContainer > div { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+}
+
+@media (max-width: 480px) {
+  #viewPaaeb .paaeb-summary { grid-template-columns: 1fr; }
+  #viewPaaeb .paaeb-periods-grid { grid-template-columns: 1fr; }
+  #viewPaaeb .paaeb-summary > div > div { min-height: 96px; }
+  #viewPaaeb .paaeb-grid > div:first-child h1 { font-size: 2rem !important; }
+}

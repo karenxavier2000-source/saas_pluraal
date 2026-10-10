@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pluraal - Sistema Integrado de Relatórios</title>
+  <meta name="description" content="Pluraal SaaS - Plataforma integrada de relatórios educacionais, simulados e controle hierárquico de acesso.">
+  <link rel="icon" type="image/png" href="assets/img/ICON DADO.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/dashboard.css?v=10">
+  <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/profile.css?v=3">
+  <link rel="stylesheet" href="css/paaeb.css?v=5">
+
+  <style>
+    /* ================= PREMIUM SIDEBAR STYLES ================= */
+    .app-sidebar {
+      background: linear-gradient(180deg, #131620 0%, #0a0b10 100%) !important;
+      border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25) !important;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      padding: 24px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      display: flex;
+      justify-content: center;
+    }
+    .sidebar-logo {
+      height: 48px !important;
+      width: auto !important;
+    }
+    
+    /* Premium User Section */
+    .sidebar-user {
+      padding: 20px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      position: relative;
+    }
+    .sidebar-user-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .sidebar-user-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .premium-avatar {
+      width: 40px !important;
+      height: 40px !important;
+      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+      border: 2px solid rgba(255,255,255,0.2) !important;
+      color: white !important;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    }
+    .premium-name {
+      color: #fff !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+    .chevron-icon {
+      margin-left: auto;
+      color: #94a3b8;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-user.active .chevron-icon {
+      transform: rotate(180deg);
+    }
+    
+    /* Dropdown Profile Detail */
+    .premium-user-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 16px;
+      right: 16px;
+      background: #1e2433;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      margin-top: 8px;
+      padding: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+    }
+    .sidebar-user.active .premium-user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown-header {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .dropdown-content {
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .detail-label {
+      color: #94a3b8;
+    }
+    .detail-value {
+      color: #fff;
+      font-weight: 500;
+      text-align: right;
+      max-width: 110px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 8px 0;
+    }
+    .dropdown-action {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .dropdown-action:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+    
+    /* Navigation Premium */
+    .sidebar-nav {
+      padding: 20px 16px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .nav-link {
+      border-radius: 10px !important;
+      padding: 12px 16px !important;
+      color: #94a3b8 !important;
+      font-weight: 500 !important;
+      transition: all 0.3s ease !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent !important;
+      position: relative;
+      overflow: hidden;
+    }
+    .sidebar-nav .nav-link[hidden],
+    .footer-link.nav-link[hidden] {
+      display: none !important;
+    }
+    .nav-link:hover {
+      color: #fff !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      transform: translateX(4px);
+    }
+    .nav-link.active {
+      color: #fff !important;
+      background: rgba(99, 102, 241, 0.15) !important;
+      border: 1px solid rgba(99, 102, 241, 0.3) !important;
+      font-weight: 600 !important;
+    }
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 4px;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+    }
+    .nav-link .nav-icon {
+      color: inherit !important;
+      transition: transform 0.3s;
+    }
+    .nav-link:hover .nav-icon {
+      transform: scale(1.1);
+      color: #818cf8 !important;
+    }
+    .nav-link.active .nav-icon {
+      color: #818cf8 !important;
+    }
+    
+    /* Footer Premium */
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px 16px !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    .logout-btn {
+      width: 100% !important;
+      background: rgba(244, 63, 94, 0.1) !important;
+      color: #fda4af !important;
+      border: 1px solid rgba(244, 63, 94, 0.2) !important;
+      border-radius: 10px !important;
+      padding: 12px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600 !important;
+      transition: all 0.3s ease !important;
+    }
+    .logout-btn:hover {
+      background: rgba(244, 63, 94, 0.2) !important;
+      color: #fff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3) !important;
+    }
+  </style>
+  <!-- Pluraal brand theme (must load last) -->
+  <link rel="stylesheet" href="css/theme.css?v=7">
+  <link rel="stylesheet" href="css/user-modal.css?v=4">
+</head>
+<body>
+
+  <!-- ================= AUTHENTICATION VIEW ================= -->
+  <div id="authView" class="auth-wrapper">
+    <!-- Left Branded Showcase (Desktop/Tablet) -->
+    <div class="auth-brand-side">
+      <div class="auth-brand-logo-container">
+        <img src="assets/img/COLORIDA.png" alt="Pluraal Logo">
+      </div>
+      <div class="auth-brand-content">
+        <h1 class="auth-brand-title">
+          Inteligência & Desempenho <span class="highlight-green">Educacional</span>
+        </h1>
+        <p class="auth-brand-subtitle">
+          Acesse métricas avançadas de simulados, diagnósticos pedagógicos e acompanhamento integrado por União, Associação e Escola.
+        </p>
+        <ul class="auth-feature-list">
+          <li class="auth-feature-item">
+            <span class="auth-feature-icon">&#10003;</span>
+            <span>Rankings e comparativos analíticos com mascaramento ético</span>
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-icon">&#10003;</span>
+            <span>Diagnóstico pedagógico individual por habilidade e dificuldade</span>
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-icon">&#10003;</span>
+            <span>Acompanhamento em tempo real da adesão por bimestre</span>
+          </li>
+        </ul>
+      </div>
+      <div class="auth-brand-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          &copy; 2026 Pluraal Educação. Todos os direitos reservados. Acesso institucional restrito.
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>Desenvolvido por</span>
+          <img src="assets/img/logo-aex-1.png" alt="AEX Logo" style="height: 20px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Login Card -->
+    <div class="auth-form-side">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <div class="auth-card-icon">
+            <img src="assets/img/ICON DADO.png" alt="Pluraal Ícone">
+          </div>
+          <h2 class="auth-card-title">Portal Pluraal</h2>
+          <p class="auth-card-desc">Informe suas credenciais institucionais para acessar o sistema.</p>
+        </div>
+
+        <div id="loginAlert" class="alert alert-danger hidden" role="alert"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="loginEmail" class="form-label">E-mail Institucional <span class="required">*</span></label>
+            <div class="input-with-icon">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input type="email" id="loginEmail" class="form-control" placeholder="seu.email@instituicao.org" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword" class="form-label">Senha de Acesso <span class="required">*</span></label>
+            <div class="input-with-icon">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" data-target="loginPassword" aria-label="Mostrar senha">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="loginSubmitBtn" class="btn btn-primary w-full" style="margin-top: 1rem; padding: 0.75rem;">
+            <span>Entrar no Sistema</span>
+          </button>
+        </form>
+
+        <div class="auth-disclaimer">
+          Não possui acesso ou esqueceu sua senha? Solicite uma nova senha temporária diretamente ao administrador ou gestor da sua unidade escolar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= MANDATORY FIRST-ACCESS PASSWORD CHANGE BARRIER ================= -->
+  <div id="passwordChangeBarrier" class="password-change-barrier hidden">
+    <div class="password-change-card">
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 56px; height: 56px; margin: 0 auto 0.75rem; background-color: var(--color-primary-subtle); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary);">Definição Obrigatória de Senha</h2>
+        <p class="text-xs text-muted" style="margin-top: 0.25rem;">Por motivos de segurança, no primeiro acesso você deve criar uma nova senha pessoal antes de continuar.</p>
+      </div>
+
+      <div id="barrierAlert" class="alert alert-danger hidden"></div>
+
+      <form id="mandatoryPasswordChangeForm">
+        <div class="form-group">
+          <label for="barrierCurrentPassword" class="form-label">Senha Temporária Atual <span class="required">*</span></label>
+          <div class="input-with-icon">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </span>
+            <input type="password" id="barrierCurrentPassword" class="form-control" required placeholder="Digite a senha temporária recebida">
+            <button type="button" class="password-toggle-btn" data-target="barrierCurrentPassword" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="barrierNewPassword" class="form-label">Nova Senha Pessoal <span class="required">*</span></label>
+          <div class="input-with-icon">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </span>
+            <input type="password" id="barrierNewPassword" class="form-control" required placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="barrierNewPassword" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Password Requirements -->
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.25rem;">
+          <div id="pwReqLength">&#8226; Pelo menos 8 caracteres</div>
+          <div id="pwReqLetter">&#8226; Pelo menos uma letra</div>
+          <div id="pwReqNumber">&#8226; Pelo menos um número</div>
+        </div>
+
+        <div class="form-group">
+          <label for="barrierConfirmPassword" class="form-label">Confirmação da Nova Senha <span class="required">*</span></label>
+          <div class="input-with-icon">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <input type="password" id="barrierConfirmPassword" class="form-control" required placeholder="Repita a nova senha" autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="barrierConfirmPassword" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="barrierSubmitBtn" class="btn btn-primary w-full" style="padding: 0.75rem; margin-top: 0.5rem;">
+          <span>Confirmar Nova Senha</span>
+        </button>
+        <button type="button" class="btn btn-outline w-full" onclick="Auth.logout()" style="padding: 0.75rem; margin-top: 0.5rem;">
+          <span>Sair da Conta</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ================= DASHBOARD APP VIEW ================= -->
+  <div id="appView" class="app-container hidden">
+    <!-- Backdrop for mobile drawer -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+    <!-- App Sidebar -->
+    <aside id="appSidebar" class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-wrap">
+          <img src="assets/img/COLORIDA SEM FRASE.png" alt="Pluraal" class="sidebar-logo sidebar-logo-full">
+          <img src="assets/img/ICON DADO.png" alt="Pluraal" class="sidebar-logo sidebar-logo-mini">
+        </div>
+        <button type="button" id="sidebarToggleCollapse" class="sidebar-collapse-btn" aria-label="Recolher menu" title="Recolher menu">
+          <svg class="collapse-icon-left" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
+          <svg class="collapse-icon-right" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg>
+        </button>
+      </div>
+      <div class="sidebar-stripe" aria-hidden="true"></div>
+
+      <div class="sidebar-user" id="sidebarUserContainer">
+        <button type="button" class="sidebar-user-card" id="userCardPremium" aria-expanded="false" aria-controls="premiumUserDropdown" title="Opções da conta">
+          <div id="sidebarUserAvatar" class="user-avatar-circle premium-avatar">PL</div>
+          <div class="sidebar-user-info">
+            <div id="sidebarUserName" class="sidebar-user-name premium-name">karen xavier</div>
+            <div id="sidebarUserTitle" class="sidebar-user-title">Administrador</div>
+            <div id="sidebarUserRole" class="sidebar-user-role">
+              <span class="badge badge-master">
+                <svg class="crown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.269a1 1 0 0 1-.96.712H5.813a1 1 0 0 1-.96-.712L2.019 6.019a.5.5 0 0 1 .798-.519l4.277 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
+                Master
+              </span>
+            </div>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        
+        <!-- Dropdown Premium do Usuário -->
+        <div class="premium-user-dropdown" id="premiumUserDropdown">
+            <div class="dropdown-header">
+                Sobre o Acesso
+            </div>
+            <div class="dropdown-content">
+                <div class="detail-item">
+                    <span class="detail-label">União:</span>
+                    <span class="detail-value" id="detailUniaoDropdown">Geral</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Assoc.:</span>
+                    <span class="detail-value" id="detailAssociacaoDropdown">Geral</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Escola:</span>
+                    <span class="detail-value" id="detailEscolaDropdown">Geral</span>
+                </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="button" class="dropdown-action" id="openProfileBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Meu Perfil
+            </button>
+            <button type="button" class="dropdown-action" id="changePhotoDropdownBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                Alterar foto
+            </button>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Navegação principal">
+        <span class="nav-section-label">ÁREA DE TRABALHO</span>
+        <a href="#relatorios" class="nav-link active" data-view="reports" id="navLinkReports">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </span>
+          <span>Visão geral</span>
+        </a>
+        <a href="#paaeb" class="nav-link" data-view="paaeb" id="navLinkPaaeb">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          </span>
+          <span>PAAEB</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-link" data-permission-page="enem" onclick="if(typeof App !== 'undefined') App.showToast('Em breve', 'info');" id="navLinkEnem" style="opacity: 0.6; cursor: not-allowed;" hidden>
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </span>
+          <span>ENEM</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-link" data-permission-page="saeb" onclick="if(typeof App !== 'undefined') App.showToast('Em breve', 'info');" id="navLinkSaeb" style="opacity: 0.6; cursor: not-allowed;" hidden>
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          </span>
+          <span>SAEB</span>
+        </a>
+        <a href="#dados" class="nav-link" data-view="data" id="navLinkData">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+          </span>
+          <span>Dados</span>
+        </a>
+        <span class="nav-section-label nav-section-account">CONTA</span>
+        <a href="#perfil" class="nav-link" data-view="profile" id="navLinkProfile">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
+          <span>Meu perfil</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn" data-logout-btn id="btnLogout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Sair da Conta</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <h2 id="topbarPageTitle" class="topbar-title">Relatórios de Desempenho</h2>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="topbarScopeTag" class="topbar-scope-tag">Escopo: Master</span>
+        </div>
+      </header>
+
+      <!-- View 1: Reports Dashboard -->
+      <section id="viewReports" class="view-content">
+        <div class="report-hero">
+          <div class="hero-content">
+            <span class="eyebrow">INTELIGÊNCIA EDUCACIONAL</span>
+            <h1>Visão Geral Educacional</h1>
+            <p id="reportSubtitle">Acompanhe desempenho e principais indicadores em um só lugar.</p>
+          </div>
+          <div class="hero-visuals">
+            <div class="hero-bars">
+              <div class="hero-bar b1"></div>
+              <div class="hero-bar b2"></div>
+              <div class="hero-bar b3"></div>
+              <div class="hero-bar b4"></div>
+            </div>
+            <div class="hero-mark" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+              <span class="mark-dot"></span>
+            </div>
+          </div>
+        </div>
+        <div id="previewBar" class="preview-bar hidden"><div><strong>Simular experiência</strong><small>Veja os dados e rankings como outro perfil.</small></div><select id="previewNivel" class="form-select" aria-label="Perfil simulado"><option value="">Master — visão completa</option><option value="uniao">União</option><option value="associacao">Associação</option><option value="escola">Escola</option></select><select id="previewUniao" class="form-select hidden" aria-label="União simulada"></select><select id="previewAssociacao" class="form-select hidden" aria-label="Associação simulada"></select><select id="previewEscola" class="form-select hidden" aria-label="Escola simulada"></select></div>
+        <div id="reportStatus" class="report-status hidden" role="status"></div>
+        <div class="filter-bar"><div class="filter-item"><label for="reportFilterUniao">União</label><select id="reportFilterUniao" class="form-select"></select></div><div class="filter-item"><label for="reportFilterAssoc">Associação</label><select id="reportFilterAssoc" class="form-select"></select></div><div class="filter-item"><label for="reportFilterEscola">Escola</label><select id="reportFilterEscola" class="form-select"></select></div><div class="filter-item"><label for="reportFilterAno">Ano</label><select id="reportFilterAno" class="form-select"></select></div><div class="filter-item"><label for="reportFilterBimestre">Bimestre</label><select id="reportFilterBimestre" class="form-select"></select></div><div class="flex gap-2"><button id="btnReportClearFilters" class="btn btn-outline">Limpar</button><button id="btnReportRefresh" class="btn btn-outline" type="button">Atualizar dados</button><button id="btnOpenReportModal" class="btn btn-primary" type="button" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; background: #4338ca; border-color: #4338ca;"><span>📄</span><span>Relatório Executivo PDF</span></button></div></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon indigo">▤</div><div class="stat-content"><div id="kpiTotalSimulados" class="stat-value">0</div><div class="stat-label">Total de simulados previstos</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✓</div><div class="stat-content"><div id="kpiSimuladosRespondidos" class="stat-value">0</div><div class="stat-label">Simulados respondidos</div></div></div>
+          <div class="stat-card"><div class="stat-icon orange">◷</div><div class="stat-content"><div id="kpiSimuladosNaoRespondidos" class="stat-value">0</div><div class="stat-label">Simulados não respondidos</div></div></div>
+          <div class="stat-card"><div class="stat-icon indigo">◎</div><div class="stat-content"><div id="kpiTotalAlunos" class="stat-value">0</div><div class="stat-label">Alunos esperados</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">↗</div><div class="stat-content"><div id="kpiMediaGeral" class="stat-value">0%</div><div class="stat-label">Desempenho médio (Total Final)</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">⌂</div><div class="stat-content"><div id="kpiTotalEscolas" class="stat-value">0</div><div class="stat-label">Escolas no escopo</div></div></div>
+        </div>
+        <div class="insight-strip"><div><span>Participação no período</span><strong id="kpiParticipacao">0%</strong></div><div><span>Questões respondidas</span><strong id="kpiQuestoes">0</strong></div><p>Desempenho é a média do Total Final por simulado realizado. Percentuais de acertos e erros usam as respostas avaliadas. Cada simulado é contado uma vez por aluno e escola.</p></div>
+        <div class="dashboard-grid"><div class="card"><div class="card-header"><div><span class="eyebrow">QUESTÕES RESPONDIDAS</span><h3 class="card-title">Acertos e erros por disciplina</h3></div></div><div id="disciplinasContainer" class="card-body progress-list"></div></div><div class="card"><div class="card-header"><div><span class="eyebrow">DESEMPENHO MÉDIO</span><h3 class="card-title">Ranking de instituições</h3></div></div><div class="rank-tabs" role="tablist"><button class="active" data-rank="uniao">Uniões</button><button data-rank="associacao">Associações</button><button data-rank="escola">Escolas</button></div><div class="ranking-wrapper"><div id="rankingContainer" class="ranking-list"></div></div></div></div>
+        <div class="dashboard-grid student-grid"><div class="card"><div class="card-header"><div><span class="eyebrow">DESTAQUES</span><h3 class="card-title">Melhores alunos</h3><p id="studentRankingNote" class="text-xs text-muted"></p></div></div><div id="bestStudents" class="student-list"></div></div><div class="card"><div class="card-header"><div><span class="eyebrow">APOIO PEDAGÓGICO</span><h3 class="card-title">Alunos que precisam de atenção</h3><p id="attentionRankingNote" class="text-xs text-muted"></p></div></div><div id="attentionStudents" class="student-list"></div></div></div>
+        <div class="card participation-card"><div class="card-header"><div><span class="eyebrow">ENGAJAMENTO</span><h3 class="card-title">Participantes por bimestre</h3><p class="text-xs text-muted">Alunos esperados e com resultado, no geral e por escola.</p></div></div><div id="participationContainer" class="card-body"></div></div>
+
+        <!-- SEÇÃO: ANÁLISE POR BIMESTRE & EVOLUÇÃO TEMPORAL (UNIÃO, ASSOCIAÇÃO, ESCOLA, ALUNO E ANO) -->
+        <div class="card bimonthly-master-card" id="bimonthlySection" style="margin-top: 1.25rem; margin-bottom: 1.25rem; border: 1px solid #e0e7ff; border-radius: 14px; background: #ffffff; box-shadow: 0 4px 16px rgba(67, 56, 202, 0.05); padding: 1.25rem;">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.85rem; margin-bottom: 1rem;">
+            <div>
+              <span class="eyebrow" style="color: #4f46e5; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.05em;">INTELIGÊNCIA TEMPORAL</span>
+              <h3 class="card-title" style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">Análise Bimestral &amp; Evolução Temporal</h3>
+              <p class="text-xs text-muted" style="margin-top: 0.2rem;">Desempenho comparativo e trajetória contínua da União, Associação, Escola, Aluno e comparativo interanual.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="bimonthlyScopeBadge" style="background: #eef2ff; color: #4338ca; font-weight: 700; padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid #c7d2fe;">Consolidado Geral</span>
+            </div>
+          </div>
+
+          <!-- Cards de Resumo Rápido dos Bimestres -->
+          <div class="bimonthly-kpi-grid" id="bimonthlyKpisGrid">
+            <!-- Gerado via JS: 1º Bimestre, 2º Bimestre, 3º Bimestre etc com Taxa, Alunos e Delta -->
+          </div>
+
+          <!-- Bloco Comparativo por Bimestre e Ano (2026 vs 2025) -->
+          <div class="bimonthly-year-box" style="margin: 1.25rem 0; padding: 1.15rem; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <strong style="font-size: 0.95rem; color: #1e293b; display: flex; align-items: center; gap: 0.5rem;">
+                  <span>📅</span> Comparativo por Bimestre e Ano (Evolução Interanual)
+                </strong>
+                <small class="text-muted" style="display: block; margin-top: 0.15rem;">Acompanhamento paralelo entre os mesmos períodos letivos de anos consecutivos.</small>
+              </div>
+              <span id="badgeAno2025Status" style="font-size: 0.72rem; padding: 0.3rem 0.65rem; border-radius: 6px; font-weight: 600; background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">
+                ⏳ Aguardando importação de 2025
+              </span>
+            </div>
+            <div class="table-responsive">
+              <table class="table analysis-table" style="background: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; width: 100%;">
+                <thead>
+                  <tr style="background: #f8fafc;">
+                    <th style="padding: 0.75rem 1rem;">Bimestre</th>
+                    <th style="text-align: center; padding: 0.75rem 1rem;">Ano 2026 (Atual)</th>
+                    <th style="text-align: center; padding: 0.75rem 1rem;">Ano 2025 (Histórico)</th>
+                    <th style="text-align: center; padding: 0.75rem 1rem;">Variação Interanual (Delta)</th>
+                    <th style="text-align: center; padding: 0.75rem 1rem;">Status / Tendência</th>
+                  </tr>
+                </thead>
+                <tbody id="bimonthlyYearTableBody">
+                  <!-- Gerado via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tabs de Entidades por Bimestre -->
+          <div style="margin-top: 1.25rem;">
+            <div class="rank-tabs" id="bimonthlyEntityTabs" role="tablist" style="margin-bottom: 0.9rem;">
+              <button class="active" data-bim-tab="uniao" type="button">Uniões por Bimestre</button>
+              <button data-bim-tab="associacao" type="button">Associações por Bimestre</button>
+              <button data-bim-tab="escola" type="button">Escolas por Bimestre</button>
+              <button data-bim-tab="aluno" type="button">Alunos por Bimestre</button>
+            </div>
+
+            <!-- Toolbar de Filtro / Busca dentro da Análise Bimestral -->
+            <div id="bimonthlyToolbar" style="display: flex; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.85rem; align-items: center; flex-wrap: wrap;">
+              <input id="bimonthlySearch" class="form-control" type="search" placeholder="Filtrar por nome da entidade ou escola..." style="max-width: 320px; font-size: 0.8rem; height: 38px;" aria-label="Buscar entidade ou escola">
+              <div id="bimonthlyStudentFilterWrap" class="hidden" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                <label for="bimonthlyStudentSelect" style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Visualizar:</label>
+                <select id="bimonthlyStudentSelect" class="form-select" style="max-width: 200px; font-size: 0.8rem; height: 38px;"></select>
+              </div>
+            </div>
+
+            <!-- Tabela Principal de Desempenho por Entidade e Bimestre -->
+            <div class="table-responsive" style="max-height: 520px; overflow-y: auto; border: 1px solid #edf2f7; border-radius: 8px;">
+              <table class="table analysis-table" id="bimonthlyEntityTable" style="width: 100%; margin-bottom: 0;">
+                <thead id="bimonthlyEntityTableHead">
+                  <!-- Cabeçalho dinâmico gerado com base nos bimestres existentes -->
+                </thead>
+                <tbody id="bimonthlyEntityTableBody">
+                  <!-- Linhas geradas via JS -->
+                </tbody>
+              </table>
+            </div>
+            <div id="bimonthlyPagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.65rem; font-size: 0.75rem; color: #64748b;">
+              <span id="bimonthlyCountNote">Exibindo registros...</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="insightsContainer" class="insights-grid"></div>
+        <div class="dashboard-grid"><div class="card"><div class="card-header"><div><span class="eyebrow">EVOLUÇÃO</span><h3 class="card-title">Participação e desempenho por bimestre</h3></div></div><div id="evolutionContainer" class="card-body"></div></div><div class="card"><div class="card-header"><div><span class="eyebrow">COMPLEXIDADE</span><h3 class="card-title">Acertos e erros por dificuldade</h3></div></div><div id="difficultyContainer" class="card-body"></div></div></div>
+        <div class="dashboard-grid"><div class="card"><div class="card-header"><div><span class="eyebrow">SEGMENTOS</span><h3 class="card-title">Desempenho por série</h3></div></div><div class="table-responsive"><table class="table analysis-table"><thead><tr><th>Nível / Série</th><th>Esperados</th><th>Fizeram</th><th>Participação</th><th>Desempenho médio</th></tr></thead><tbody id="seriesTableBody"></tbody></table></div></div><div class="card"><div class="card-header"><div><span class="eyebrow" style="color: #dc2626;">SIMULADOS NÃO FEITOS</span><h3 class="card-title">Alunos sem simulado realizado</h3><p id="pendingStudentsNote" class="text-xs text-muted"></p></div><input id="pendingStudentsSearch" class="form-control" type="search" placeholder="Buscar aluno sem simulado" aria-label="Buscar aluno sem simulado"></div><div id="pendingStudents" class="pending-list"></div><button id="pendingStudentsMore" class="btn btn-outline hidden" type="button">Carregar mais alunos</button></div></div>
+        <div class="card matrix-card"><div class="card-header"><div><span class="eyebrow">DIAGNÓSTICO DE QUESTÕES</span><h3 class="card-title">Disciplina × dificuldade</h3><p class="text-xs text-muted">Percentual de acerto por combinação.</p></div></div><div id="subjectDifficultyMatrix" class="card-body"></div></div>
+        <div class="card skills-report-card"><div class="card-header"><div><span class="eyebrow">DIAGNÓSTICO PEDAGÓGICO</span><h3 class="card-title">Relatório por habilidade</h3><p id="skillsReportNote" class="text-xs text-muted"></p></div><button id="skillsExport" class="btn btn-outline">Exportar habilidades</button></div>
+          <div class="rank-tabs" aria-label="Agrupamento das habilidades"><button class="active" data-skill-level="geral">Geral</button><button data-skill-level="uniao">Uniões</button><button data-skill-level="associacao">Associações</button><button data-skill-level="escola">Escolas</button><button data-skill-level="aluno">Alunos</button></div>
+          <div class="skills-toolbar"><input id="skillsSearch" class="form-control" type="search" placeholder="Buscar habilidade, descrição ou instituição" aria-label="Buscar habilidade"><select id="skillsSubject" class="form-select" aria-label="Disciplina das habilidades"></select><select id="skillsSort" class="form-select" aria-label="Ordenar habilidades"><option value="low">Menor taxa de acerto</option><option value="high">Maior taxa de acerto</option><option value="errors">Mais erros</option><option value="volume">Mais respostas</option></select></div>
+          <div class="table-responsive"><table class="table analysis-table skills-table"><thead><tr><th>Instituição</th><th>Disciplina / habilidade</th><th>Descrição</th><th>Alunos</th><th>Simulados feitos</th><th>Respostas</th><th>Acertos</th><th>Erros</th><th>Taxa de acerto</th></tr></thead><tbody id="skillsReportBody"></tbody></table></div><div class="skills-pagination"><button id="skillsPrevious" class="btn btn-outline">Anterior</button><span id="skillsPageNote" class="text-xs text-muted"></span><button id="skillsNext" class="btn btn-outline">Próxima</button></div>
+        </div>
+        <div class="card student-directory-card"><div class="card-header"><div><span class="eyebrow">CONSULTA INDIVIDUAL</span><h3 class="card-title">Habilidades por aluno</h3><p class="text-xs text-muted">Clique em um aluno nos resultados para ver seu relatório completo.</p></div></div><form id="studentDirectoryForm" class="skills-toolbar"><input id="studentDirectorySearch" class="form-control" type="search" placeholder="Digite nome ou RA; deixe vazio para listar todos" aria-label="Buscar aluno por nome ou RA"><button class="btn btn-primary" type="submit">Buscar alunos</button></form><p id="studentDirectoryNote" class="directory-note text-xs text-muted">Digite um nome ou RA e clique em Buscar alunos. Para listar todos, deixe o campo vazio e clique em Buscar alunos.</p><div id="studentDirectoryList" class="student-list"></div><button id="studentDirectoryMore" class="btn btn-outline hidden" type="button">Carregar mais alunos</button></div>
+        <div class="card school-analysis-card"><div class="card-header"><div><span class="eyebrow">REDE ESCOLAR</span><h3 class="card-title">Participação e aprendizagem por escola</h3></div><input id="schoolAnalysisSearch" class="form-control school-analysis-search" type="search" placeholder="Buscar escola" aria-label="Buscar escola"></div><div class="table-responsive"><table class="table analysis-table"><thead><tr><th>Escola</th><th>Esperados</th><th>Fizeram</th><th>Participação</th><th>Desempenho médio</th></tr></thead><tbody id="schoolAnalysisBody"></tbody></table></div></div>
+
+
+      
+        <!-- Nova seção de Detalhamento de Simulados no final do dashboard -->
+        <div class="card" style="margin-top: 2rem; margin-bottom: 2rem;">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="eyebrow">DETALHAMENTO</span>
+              <h3 class="card-title">Simulados Disponíveis</h3>
+              <p class="text-xs text-muted">Selecione um simulado para ver o resultado por aluno e por unidade.</p>
+            </div>
+            <div>
+              <input type="text" id="simuladosSearch" class="form-control" placeholder="Buscar simulado, escola..." style="min-width: 250px;">
+            </div>
+          </div>
+          <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <table class="table analysis-table">
+              <thead>
+                <tr>
+                  <th>SIMULADO</th>
+                  <th>UNIÃO</th>
+                  <th class="text-center">AÇÕES</th>
+                </tr>
+              </thead>
+              <tbody id="simuladosListTable">
+                <!-- Preenchido via JS -->
+                <tr onclick="openSimuladoModal('Exemplo')" style="cursor: pointer;">
+                  <td style="font-weight: 600;">SIM-2026-001</td>
+                  <td>União Centro-Oeste Brasileira</td>
+                  <td>Missão Tocantins</td>
+                  <td>Colégio Adventista de Araguaina</td>
+                  <td class="text-center"><button class="btn btn-outline btn-sm">Ver Detalhes</button></td>
+                </tr>
+                <tr onclick="openSimuladoModal('Vazio')" style="cursor: pointer;">
+                  <td style="font-weight: 600;">SIM-2026-002 <span class="badge" style="background: #e2e8f0; color: #64748b; margin-left: 8px;">Vazio</span></td>
+                  <td>União Centro-Oeste Brasileira</td>
+                  <td>Missão Tocantins</td>
+                  <td>Escola Exemplo (Sem Respostas)</td>
+                  <td class="text-center"><button class="btn btn-outline btn-sm">Ver Detalhes</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+        <section id="viewProfile" class="view-content hidden">
+        <div class="profile-heading"><span class="eyebrow">MINHA CONTA</span><h1>Meu perfil</h1><p>Consulte seus dados de acesso, gerencie usuários e exporte as informações disponíveis para você.</p></div>
+        <div class="profile-tabs" role="tablist" aria-label="Seções do perfil">
+          <button type="button" class="profile-tab active" data-profile-tab="overview" role="tab" aria-selected="true">Visão geral</button>
+          <button type="button" class="profile-tab" data-profile-tab="users" id="profileTabUsers" role="tab" aria-selected="false">Usuários e acessos</button>
+          <button type="button" class="profile-tab" data-profile-tab="schools" id="profileTabSchools" role="tab" aria-selected="false" style="display:none">Escolas</button>
+        </div>
+        <div id="profileOverview" class="profile-panel" role="tabpanel">
+          <div class="profile-identity">
+            <div class="profile-avatar-wrap">
+              <div id="profileAvatar" class="profile-avatar">PL</div>
+              <button type="button" id="profileChangePhoto" class="avatar-edit-btn" aria-label="Alterar foto de perfil" title="Alterar foto de perfil">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              </button>
+            </div>
+            <div class="profile-identity-text">
+              <span class="eyebrow">PERFIL INSTITUCIONAL</span>
+              <h2 id="profileName">Usuário</h2>
+              <p id="profileEmail"></p>
+              <div class="profile-identity-meta"><span id="profileRoleBadge" class="profile-role-pill">—</span></div>
+            </div>
+            <div class="profile-photo-actions">
+              <button type="button" id="profileChangePhotoBtn" class="btn btn-photo">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                Alterar foto
+              </button>
+              <small>JPG, PNG ou WebP · até 10 MB</small>
+            </div>
+          </div>
+          <div class="profile-info-grid"><div><span>Nível de acesso</span><strong id="profileRole">—</strong></div><div><span>Instituições acessíveis</span><strong id="profileSchoolCount">—</strong></div></div>
+          <div id="profileSchoolList" style="margin-top:1rem; margin-bottom:1.5rem; max-height:250px; overflow-y:auto; font-size:0.85rem; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem; display:none; background:var(--bg-card);"></div>
+          <p class="profile-help">Sua área de dados respeita as permissões atribuídas à sua conta.</p>
+        </div>
+        <!-- Users & Delegation -->
+        <div id="profileUsers" class="profile-panel hidden" role="tabpanel">        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Usuários & Delegação de Acesso</h3>
+              <p class="text-xs text-muted">Gerencie permissões estritas de acordo com a hierarquia institucional.</p>
+            </div>
+            <button id="btnNewUser" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Novo Usuário
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div class="table-toolbar">
+              <div class="search-input-box">
+                <input type="text" id="userSearchInput" class="form-control" placeholder="Buscar por nome ou e-mail...">
+              </div>
+              <div class="flex gap-2">
+                <select id="filterUserHierarchy" class="form-select" style="min-width: 170px;">
+                  <option value="">Todas as Hierarquias</option>
+                  <option value="Master">Master</option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="uniao">União</option>
+                  <option value="associacao">Associação</option>
+                  <option value="escola">Escola</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Usuário</th>
+                    <th>E-mail</th>
+                    <th>Hierarquia</th>
+                    <th>Acessos Atribuídos</th>
+                    <th>Pode Criar Usuários</th>
+                    <th>Status</th>
+                    <th class="text-center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <!-- Populated by users.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div id="profileSchools" class="profile-panel hidden" role="tabpanel">
+          <div class="card">
+            <div class="card-header"><div><h3 class="card-title">Escolas cadastradas</h3><p class="text-xs text-muted">Registros da tabela de escolas.</p></div><button id="btnNewSchool" type="button" class="btn btn-primary">Adicionar escola</button></div>
+            <div class="card-body"><input id="schoolSearch" class="form-control" type="search" placeholder="Buscar escola, união ou associação" aria-label="Buscar escolas"><p id="schoolStatus" class="report-status" role="status"></p><div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>União</th><th>Sigla união</th><th>Associação</th><th>Sigla associação</th><th>Escola</th><th>Ações</th></tr></thead><tbody id="schoolTableBody"></tbody></table></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Dados / Exportação de Dados da Área de Trabalho -->
+      <section id="viewData" class="view-content hidden">
+        <div class="data-intro">
+          <div>
+            <span class="eyebrow">ÁREA DE TRABALHO · DADOS</span>
+            <h2>Exportação de Dados</h2>
+            <p>Escolha o período e a instituição desejada para exportar os dados brutos consolidados da rede em formato CSV.</p>
+          </div>
+          <div class="data-intro-icon" aria-hidden="true">↧</div>
+        </div>
+        <div id="dataExportStatus" class="report-status hidden" role="status"></div>
+        <div class="data-filter-card">
+          <div class="data-filter-heading">
+            <h3>Filtros de Exportação</h3>
+            <button type="button" id="clearDataFilters" class="btn btn-outline">Limpar filtros</button>
+          </div>
+          <div class="data-filter-grid">
+            <div class="filter-item"><label for="dataFilterUniao">União</label><select id="dataFilterUniao" class="form-select"></select></div>
+            <div class="filter-item"><label for="dataFilterAssoc">Associação</label><select id="dataFilterAssoc" class="form-select"></select></div>
+            <div class="filter-item"><label for="dataFilterEscola">Escola</label><select id="dataFilterEscola" class="form-select"></select></div>
+            <div class="filter-item"><label for="dataFilterAno">Ano</label><select id="dataFilterAno" class="form-select"></select></div>
+            <div class="filter-item"><label for="dataFilterBimestre">Bimestre</label><select id="dataFilterBimestre" class="form-select"></select></div>
+          </div>
+          <p class="data-scope-note">Sem seleção, o arquivo incluirá todas as instituições e períodos permitidos para sua conta.</p>
+        </div>
+        <div class="rank-tabs" role="tablist" id="dataTabs" style="margin-bottom: 2rem;">
+          <button class="active" data-data-tab="simulados">Dados Simulados</button>
+          <button data-data-tab="paaeb">Dados PAAEB</button>
+        </div>
+
+        <div id="dataSimuladosContent" class="data-export-grid">
+          <article class="data-export-card">
+            <div class="data-table-icon">01</div>
+            <div>
+              <span class="eyebrow">TABELA 01</span>
+              <h3>Alunos e Simulados</h3>
+              <p>Registros completos da tabela <code>aluno</code>, incluindo resultados por disciplina, notas e informações de aplicação.</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-export-table="aluno">Exportar Alunos CSV <span aria-hidden="true">↧</span></button>
+          </article>
+          <article class="data-export-card">
+            <div class="data-table-icon green">02</div>
+            <div>
+              <span class="eyebrow">TABELA 02</span>
+              <h3>Respostas e Gabaritos</h3>
+              <p>Registros detalhados da tabela <code>gabarito_aluno</code>, com respostas item a item, acertos/erros e habilidades BNCC.</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-export-table="gabarito_aluno">Exportar Gabaritos CSV <span aria-hidden="true">↧</span></button>
+          </article>
+        </div>
+
+        <div id="dataPaaebContent" class="data-export-grid hidden">
+          <article class="data-export-card">
+            <div class="data-table-icon indigo">01</div>
+            <div>
+              <span class="eyebrow">TABELA PAAEB 01</span>
+              <h3>Alunos PAAEB</h3>
+              <p>Resultados de proficiência individuais por aluno.</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-export-table="paaeb_aluno">Exportar Alunos CSV <span aria-hidden="true">↧</span></button>
+          </article>
+          <article class="data-export-card">
+            <div class="data-table-icon yellow">02</div>
+            <div>
+              <span class="eyebrow">TABELA PAAEB 02</span>
+              <h3>Adequação</h3>
+              <p>Percentual de estudantes em cada nível de proficiência.</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-export-table="paaeb_adequacao">Exportar Adequação CSV <span aria-hidden="true">↧</span></button>
+          </article>
+          <article class="data-export-card">
+            <div class="data-table-icon green">03</div>
+            <div>
+              <span class="eyebrow">TABELA PAAEB 03</span>
+              <h3>Média e Escala</h3>
+              <p>Pontuações médias, escala de conhecimento e matrizes.</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-export-table="paaeb_media">Exportar Média/Escala CSV <span aria-hidden="true">↧</span></button>
+          </article>
+        </div>
+        <p class="data-footnote">Arquivos CSV estruturados com codificação UTF-8 e separados por ponto e vírgula, prontos para importação em planilhas ou softwares estatísticos.</p>
+      </section>
+
+      <section id="viewPdfReports" class="view-content hidden">
+        <div class="report-hero" style="background: linear-gradient(120deg, #1e2142, #4a4b85 60%, #6565a2); margin-bottom: 2rem; border-radius: 1rem; padding: 3rem 2.5rem; color: #fff; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px -10px rgba(30,33,66,0.5); overflow: hidden; position: relative;">
+          <div style="position: relative; z-index: 2; max-width: 600px;">
+            <span class="eyebrow" style="color: #c6e4bd; font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 700; display: block; margin-bottom: 0.5rem;">INTELIGÊNCIA EDUCACIONAL</span>
+            <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 1rem; letter-spacing: -0.03em; color: #fff;">Central de Relatórios</h1>
+            <p style="font-size: 1.05rem; opacity: 0.9; margin: 0; line-height: 1.6;">Gere documentos executivos em PDF com análises profundas de aprendizagem, desempenho e engajamento da rede.</p>
+            <button id="btnHeroOpenReportModal" class="btn btn-primary" type="button" style="margin-top: 1.25rem; font-weight: 700; padding: 0.75rem 1.75rem; background: #22c55e; border-color: #22c55e; color: #1e2142; box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <span>⚙️</span> Abrir Gerador de Relatório Completo
+            </button>
+          </div>
+          <div class="hero-mark" style="font-size: 6rem; opacity: 0.1; position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 1;">📄</div>
+        </div>
+
+        <div class="profile-tabs" role="tablist" aria-label="Seções de relatórios" style="margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0;">
+          <button type="button" class="profile-tab active" data-pdf-tab="simulado" role="tab" aria-selected="true" style="padding: 1rem 1.5rem; background: transparent; border: none; font-weight: 700; color: var(--color-primary); cursor: pointer; border-bottom: 3px solid var(--brand-green);">Simulado</button>
+          <button type="button" class="profile-tab" data-pdf-tab="paaeb" role="tab" aria-selected="false" style="padding: 1rem 1.5rem; background: transparent; border: none; font-weight: 700; color: var(--text-muted); cursor: pointer;">PAAEB</button>
+        </div>
+
+        <div id="tabPdfSimulado" class="profile-panel" role="tabpanel" style="display: block;">
+          <div style="margin-bottom: 2rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">Relatórios Oficiais de Simulado</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Selecione o nível do relatório que deseja gerar. Os dados consolidados do escopo selecionado serão processados para a montagem do documento.</p>
+          </div>
+
+          <div class="filter-bar" style="margin-bottom: 2rem;">
+            <div class="filter-item">
+              <label for="pdfFilterUniao">União</label>
+              <select id="pdfFilterUniao" class="form-select"><option value="">Todas as uniões</option></select>
+            </div>
+            <div class="filter-item">
+              <label for="pdfFilterAssoc">Associação</label>
+              <select id="pdfFilterAssoc" class="form-select"><option value="">Todas as associações</option></select>
+            </div>
+            <div class="filter-item">
+              <label for="pdfFilterEscola">Escola</label>
+              <select id="pdfFilterEscola" class="form-select"><option value="">Todas as escolas</option></select>
+            </div>
+            <div class="filter-item">
+              <label for="pdfFilterBimestre">Bimestre</label>
+              <select id="pdfFilterBimestre" class="form-select"><option value="">Todos os bimestres</option></select>
+            </div>
+            <div class="filter-item">
+              <label for="pdfFilterSerie">Nível / Série</label>
+              <select id="pdfFilterSerie" class="form-select"><option value="">Todas as séries</option></select>
+            </div>
+            <div class="flex gap-2">
+              <button id="btnPdfClearFilters" class="btn btn-outline">Limpar</button>
+            </div>
+          </div>
+
+          <div class="insights-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            
+            <!-- Relatório Executivo da Rede -->
+            <div class="insight-card pdf-card-hover" style="border-top: 4px solid #4f46e5; align-items: flex-start; padding: 2rem 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: #eef2ff; color: #4f46e5; display: grid; place-items: center; margin-bottom: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              </div>
+              <span style="color: #4f46e5; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">NÍVEL REDE GLOBAL</span>
+              <strong style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); line-height: 1.2;">Relatório Executivo da Rede</strong>
+              <small style="flex: 1; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-top: 0.25rem;">Visão consolidada de toda a rede, médias globais, participação, matriz de situação e evolução das escolas.</small>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; font-weight: 600;" onclick="PdfReports.generate('rede', this)">📄 Gerar Relatório da Rede</button>
+            </div>
+
+            <!-- Relatório Executivo da União (Todas as Unidades) -->
+            <div class="insight-card pdf-card-hover" style="border-top: 4px solid #0284c7; align-items: flex-start; padding: 2rem 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: grid; place-items: center; margin-bottom: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <span style="color: #0284c7; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">NÍVEL UNIÃO (TODAS UNIDADES)</span>
+              <strong style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); line-height: 1.2;">Relatório Executivo da União</strong>
+              <small style="flex: 1; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-top: 0.25rem;">Consolidado de todas as unidades da União selecionada, comparativo de escolas, gráficos de disciplinas e análise de 5+ linhas.</small>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; font-weight: 600; background: #0284c7; border-color: #0284c7;" onclick="PdfReports.generate('uniao', this)">📄 Gerar Relatório da União</button>
+            </div>
+
+            <!-- Relatório Executivo da Escola -->
+            <div class="insight-card pdf-card-hover" style="border-top: 4px solid #16a34a; align-items: flex-start; padding: 2rem 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: #f0fdf4; color: #16a34a; display: grid; place-items: center; margin-bottom: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              </div>
+              <span style="color: #16a34a; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">NÍVEL ESCOLA</span>
+              <strong style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); line-height: 1.2;">Relatório Executivo da Unidade</strong>
+              <small style="flex: 1; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-top: 0.25rem;">Desempenho por série, destaques, pontos de atenção por disciplina e panorama de engajamento da escola.</small>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; font-weight: 600;" onclick="PdfReports.generate('escola', this)">📄 Gerar Relatório da Unidade</button>
+            </div>
+
+            <!-- Relatório da Turma -->
+            <div class="insight-card pdf-card-hover" style="border-top: 4px solid #ea580c; align-items: flex-start; padding: 2rem 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: #fff7ed; color: #ea580c; display: grid; place-items: center; margin-bottom: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <span style="color: #ea580c; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">NÍVEL COORDENAÇÃO</span>
+              <strong style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); line-height: 1.2;">Relatório da Turma</strong>
+              <small style="flex: 1; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-top: 0.25rem;">Média da turma, distribuição de notas, diagnóstico de aprendizado, questões críticas e alunos em ponto de atenção.</small>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; font-weight: 600;" onclick="PdfReports.generate('turma', this)">📄 Gerar Relatório da Turma</button>
+            </div>
+
+            <!-- Relatório Individual do Aluno -->
+            <div class="insight-card pdf-card-hover" style="border-top: 4px solid #db2777; align-items: flex-start; padding: 2rem 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: #fdf2f8; color: #db2777; display: grid; place-items: center; margin-bottom: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <span style="color: #db2777; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">NÍVEL ALUNO</span>
+              <strong style="font-size: 1.15rem; font-weight: 800; color: var(--color-primary); line-height: 1.2;">Relatório Individual</strong>
+              <small style="flex: 1; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-top: 0.25rem;">Boletim pedagógico individual com % de acertos, desempenho por disciplina, pontos fortes e fracos identificados.</small>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; font-weight: 600;" onclick="PdfReports.generate('aluno', this)">📄 Gerar Boletim Individual</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="tabPdfPaaeb" class="profile-panel hidden" role="tabpanel" style="display: none;">
+          <div class="empty-state" style="padding: 4rem 2rem;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin-bottom: 1rem;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">Relatórios do PAAEB</h3>
+            <p style="color: var(--text-muted); max-width: 400px; margin: 0 auto;">Em breve! Esta seção será habilitada quando os resultados e avaliações do PAAEB estiverem disponíveis no sistema.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- App Footer -->
+      <!-- View: ENEM -->
+      <section id="viewEnem" class="view-content hidden">
+        <div class="report-hero"><button onclick="document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden')); document.getElementById('viewSimuladoDetail').classList.remove('hidden');" class="btn btn-primary" style="background: #528965; color: white; border-radius: 8px; padding: 0.5rem 1rem; margin-top: 1rem;">Ver Tela de Simulado Teste</button>
+          <div class="hero-content">
+            <span class="eyebrow">PREPARAÇÃO & SIMULADOS</span>
+            <h1>Análise ENEM</h1>
+            <p>Diagnóstico de desempenho e preparação para o Exame Nacional do Ensino Médio.</p>
+          </div>
+          <div class="hero-visuals">
+            <div class="hero-bars">
+              <div class="hero-bar b1" style="background: linear-gradient(180deg, #ec4899 0%, #be185d 100%);"></div>
+              <div class="hero-bar b2" style="background: linear-gradient(180deg, #ec4899 0%, #be185d 100%);"></div>
+              <div class="hero-bar b3" style="background: linear-gradient(180deg, #ec4899 0%, #be185d 100%);"></div>
+            </div>
+            <div class="hero-mark" aria-hidden="true" style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.2); color: #ec4899;">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-header" style="flex-direction: column; align-items: center; padding: 3rem 1rem;">
+              <span style="font-size: 3rem; margin-bottom: 1rem;">⏳</span>
+              <h3 class="card-title">Aguardando importação de dados</h3>
+              <p class="text-muted text-center" style="max-width: 400px; margin-top: 1rem;">Os dados do ENEM estão sendo processados. Em breve, você terá acesso a rankings, evolução por área de conhecimento (Linguagens, Matemática, Ciências da Natureza e Humanas) e microdados por aluno.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: PAAEB -->
+      <section id="viewPaaeb" class="view-content hidden" style="background: transparent;">
+        <div class="paaeb-grid" style="width: 100%; max-width: 1400px; margin: 0 auto;">
+            <!-- Renderizado via JS -->
+        </div>
+      </section>
+
+      <footer class="app-footer">
+        <div class="footer-top-stripe" aria-hidden="true"></div>
+        <div class="footer-container">
+          <div class="footer-grid">
+            
+            <!-- Coluna 1: Marca & Desenvolvimento -->
+            <div class="footer-col footer-col-brand">
+              <div class="footer-brand-header">
+                <img src="assets/img/logo a e x analise dados azul.png" alt="AEX Tecnologia" class="footer-logo" onerror="this.src='assets/img/logo-aex-3.png'">
+                <div class="footer-brand-title">
+                  <span class="footer-brand-badge">TECNOLOGIA & DADOS</span>
+                  <h4 class="footer-brand-name">AEX Tecnologia</h4>
+                </div>
+              </div>
+              <p class="footer-description">
+                Soluções avançadas em engenharia e inteligência de dados educacionais, relatórios executivos automatizados e alta performance.
+              </p>
+              <div class="footer-status-pill">
+                <span class="status-pulse-dot"></span>
+                <span>Sistemas 100% Operacionais</span>
+              </div>
+            </div>
+
+            <!-- Coluna 2: Navegação Rápida -->
+            <div class="footer-col footer-col-nav">
+              <h4 class="footer-heading">Módulos da Plataforma</h4>
+              <ul class="footer-links">
+                <li>
+                  <a href="#relatorios" class="footer-link nav-link" data-view="reports">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    Relatórios de Desempenho
+                  </a>
+                </li>
+                <li>
+                  <a href="#pdfReports" class="footer-link nav-link" data-view="pdfReports">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Relatórios Executivos (PDF)
+                  </a>
+                </li>
+                <li>
+                  <a href="#perfil" class="footer-link nav-link" data-view="profile">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Perfil & Acesso
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Coluna 3: Segurança e Governança -->
+            <div class="footer-col footer-col-security">
+              <h4 class="footer-heading">Segurança & Governança</h4>
+              <ul class="footer-security-list">
+                <li class="footer-security-item">
+                  <div class="security-icon-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div>
+                    <strong>LGPD Compliant</strong>
+                    <span>Privacidade de dados assegurada</span>
+                  </div>
+                </li>
+                <li class="footer-security-item">
+                  <div class="security-icon-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <div>
+                    <strong>Criptografia TLS 256-bit</strong>
+                    <span>Conexão e emissão seguras</span>
+                  </div>
+                </li>
+                <li class="footer-security-item">
+                  <div class="security-icon-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  </div>
+                  <div>
+                    <strong>Alta Disponibilidade</strong>
+                    <span>Análises e relatórios contínuos</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Coluna 4: Suporte e Contato -->
+            <div class="footer-col footer-col-contact">
+              <h4 class="footer-heading">Contato & Suporte</h4>
+              <div class="footer-contact-card">
+                <p class="footer-contact-text">
+                  Dúvidas técnicas, novos módulos ou suporte operacional:
+                </p>
+                <div class="footer-email-box">
+                  <a href="mailto:sac@aextecnologia.com.br" class="footer-email-btn" title="Enviar e-mail para o suporte">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span>sac@aextecnologia.com.br</span>
+                  </a>
+                  <button type="button" class="footer-copy-btn" id="footerCopyEmailBtn" title="Copiar e-mail" onclick="FooterHelper.copyEmail(this)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="copy-text">Copiar</span>
+                  </button>
+                </div>
+                <div class="footer-schedule">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>Atendimento: Seg a Sex, 08h às 18h</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sub-footer / Bottom bar -->
+          <div class="footer-bottom-bar">
+            <div class="footer-copyright">
+              <span>© 2026 <strong>Pluraal Educação</strong>. Desenvolvido com excelência por <strong>AEX Tecnologia</strong>. Todos os direitos reservados.</span>
+            </div>
+            <div class="footer-meta">
+              <span class="footer-version-tag">Pluraal SaaS v2.4.2</span>
+              <span class="footer-dot">•</span>
+              <span class="footer-meta-item">Ambiente Seguro</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    
+      
+    
+    <!-- Modal de Detalhamento de Simulado -->
+    <div id="simuladoDetailModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
+      <div class="simulado-detail-dialog" style="background: #fff; width: 100%; max-width: 95%; height: 90vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        
+        <!-- Header -->
+        <div class="simulado-detail-header" style="padding: 1.5rem 2rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #f8fafc;">
+          <div>
+            <h2 id="modalSimuladoTitle" style="color: #3f4779; margin: 0; font-size: 1.5rem; font-weight: 800;">Resultados do Simulado</h2>
+            <p style="color: #64748b; margin: 0.25rem 0 0 0; font-size: 0.9rem;">Detalhamento de performance</p>
+          </div>
+          <button type="button" onclick="closeSimuladoModal()" aria-label="Fechar" style="background: transparent; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">&times;</button>
+        </div>
+
+        <!-- Tabs and Filter -->
+        <div class="simulado-detail-toolbar" style="display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+          <div class="simulado-detail-tabs" style="display: flex; gap: 1rem;">
+            <button id="tabBtnAluno" onclick="switchSimuladoTab('aluno')" style="padding: 1rem 0; border: none; background: transparent; font-weight: 600; color: #528965; border-bottom: 3px solid #528965; cursor: pointer; font-size: 0.95rem;">Resultados por Aluno</button>
+            <button id="tabBtnUnidade" onclick="switchSimuladoTab('unidade')" style="padding: 1rem 0; border: none; background: transparent; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; font-size: 0.95rem;">Resultados por Unidade</button>
+          </div>
+          <div class="simulado-detail-filter">
+            <select id="modalSearchInput" onchange="renderModalContent()" class="form-control" style="width: 300px; padding: 0.5rem; border-radius: 6px; border: 1px solid #cbd5e1; background-color: white;">
+              <option value="">Todas as Escolas</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="simulado-detail-content" style="flex: 1; overflow: auto; padding: 2rem; background: #f1f5f9;">
+          
+          <!-- Tab Aluno -->
+          <div id="tabContentAluno" style="display: block; height: 100%;">
+            <div class="card" style="margin: 0; height: 100%; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+              <div style="background: #528965; color: white; padding: 1rem 1.5rem; font-size: 0.9rem; font-weight: 600;">
+                Resultados por Aluno
+              </div>
+              <div class="table-responsive" style="flex: 1; overflow-y: auto; background: white;">
+                <table class="table analysis-table" style="margin: 0; width: 100%;">
+                  <thead style="position: sticky; top: 0; z-index: 10; background: #f8fafc; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                    <tr>
+                      <th style="width: 40px;" class="text-center">#</th>
+                      <th>NOME DO ALUNO / ESCOLA</th>
+                      <th class="text-center">NOTA</th>
+                      <th class="text-center">ACERTOS</th>
+                      <th class="text-center">STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="modalStudentsTable">
+                    <!-- JS fills this -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Unidade -->
+          <div id="tabContentUnidade" style="display: none; height: 100%;">
+            <div class="card" style="margin: 0; height: 100%; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+              <div style="background: #528965; color: white; padding: 1rem 1.5rem; font-size: 0.9rem; font-weight: 600;">
+                Resultados por Unidade
+              </div>
+              <div class="table-responsive" style="flex: 1; overflow-y: auto; background: white;">
+                <table class="table analysis-table" style="margin: 0; width: 100%;">
+                  <thead style="position: sticky; top: 0; z-index: 10; background: #f8fafc; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                    <tr>
+                      <th>UNIÃO</th>
+                      <th>CAMPO</th>
+                      <th>UNIDADE</th>
+                      <th class="text-center">PARTICIPANTES</th>
+                      <th class="text-center">ESPERADOS</th>
+                      <th class="text-center">% PARTICIPAÇÃO</th>
+                      <th class="text-center">DESEMPENHO MÉDIO</th>
+                      <th class="text-center">STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="modalUnitsTable">
+                    <!-- JS fills this -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function closeSimuladoModal() {
+        document.getElementById('simuladoDetailModal').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      async function openSimuladoModal(simuladoId, nomeSimulado, uniaoNome) {
+        const modal = document.getElementById('simuladoDetailModal');
+        const title = document.getElementById('modalSimuladoTitle');
+        const studTbody = document.getElementById('modalStudentsTable');
+        const unitTbody = document.getElementById('modalUnitsTable');
+        
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        title.textContent = `Carregando ${nomeSimulado || simuladoId}...`;
+        studTbody.innerHTML = '<div style="padding: 1.5rem; color: #64748b;">Buscando resultados...</div>';
+        unitTbody.innerHTML = '<div style="padding: 1.5rem; color: #64748b;">Buscando resultados...</div>';
+        document.getElementById('modalSearchInput').innerHTML = '<option value="">Todas as Escolas</option>';
+        
+        try {
+          const filters = {};
+          if (uniaoNome) filters.uniao = uniaoNome;
+          window.currentSimuladoDetail = await API.getSimuladoDetail(simuladoId, filters);
+          title.textContent = `Resultados: ${nomeSimulado || simuladoId}`;
+          renderModalContent();
+        } catch(error) {
+          studTbody.innerHTML = `<div style="padding: 1.5rem; color: #ef4444;">${error.message || 'Erro ao buscar dados'}</div>`;
+          unitTbody.innerHTML = studTbody.innerHTML;
+        }
+      }
+      
+      function renderModalContent() {
+        if (!window.currentSimuladoDetail) return;
+        const detail = window.currentSimuladoDetail;
+        const c = typeof Reports !== 'undefined' ? Reports : { esc: (x) => x || '', num: (x) => x || 0, pct: (x) => (x || 0) + '%' };
+        const studTbody = document.getElementById('modalStudentsTable');
+        const unitTbody = document.getElementById('modalUnitsTable');
+        const selectEl = document.getElementById('modalSearchInput');
+        
+        // Populate select if it only has the default option
+        if (selectEl.options.length <= 1 && detail.unidades && detail.unidades.length > 0) {
+          const escolasUnicas = [...new Set(detail.unidades.map(u => u.escola))].sort();
+          escolasUnicas.forEach(escola => {
+             const opt = document.createElement('option');
+             opt.value = escola;
+             opt.textContent = escola;
+             selectEl.appendChild(opt);
+          });
+        }
+        
+        const term = selectEl.value;
+        
+        // Alunos
+        const maxAlunos = 100;
+        let alunosFiltrados = detail.alunos || [];
+        if (term) {
+           alunosFiltrados = alunosFiltrados.filter(r => r.escola === term);
+        }
+        const alunosRender = alunosFiltrados.slice(0, maxAlunos);
+        studTbody.innerHTML = alunosRender.length ? alunosRender.map(r => `
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" style="width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 3px;">
+            </td>
+            <td>
+              <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem; margin-bottom: 0.25rem;">${c.esc(r.nome)}</div>
+              <div style="color: #64748b; font-size: 0.8rem;">
+                ${c.esc(r.escola)} <span style="display: inline-block; width: 4px; height: 4px; background: #cbd5e1; border-radius: 50%; margin: 0 4px 2px;"></span> ${c.esc(r.turma || '')}
+              </div>
+            </td>
+            <td class="text-center" style="vertical-align: middle;">
+              <div style="display: inline-flex; width: 62px; height: 62px; border-radius: 50%; background: #f8fafc; align-items: center; justify-content: center; font-weight: 700; color: #0f172a; font-size: 0.85rem; border: 1px solid #e2e8f0;">
+                ${r.nota != null ? r.nota + '%' : '-'}
+              </div>
+            </td>
+            <td class="text-center" style="vertical-align: middle;">
+              <div style="font-weight: 600; color: #334155; font-size: 0.9rem;">${r.acertos != null ? `${(r.acertos * 100 / r.questoes).toFixed(1)}%` : '-'}</div>
+              <div style="color: #94a3b8; font-size: 0.75rem; margin-top: 2px;">${r.acertos != null ? `(${r.acertos}/${r.questoes})` : ''}</div>
+            </td>
+            <td class="text-center" style="vertical-align: middle;">
+              <span style="background: ${r.nota != null ? '#16a34a' : '#f1f5f9'}; color: ${r.nota != null ? 'white' : '#64748b'}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                ${r.nota != null ? 'Encerrada' : 'Pendente'}
+              </span>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="5" class="text-center" style="padding: 2rem; color: #64748b;">Nenhum aluno encontrado para os filtros atuais.</td></tr>';
+        
+        if (alunosFiltrados.length > maxAlunos) {
+          studTbody.innerHTML += `<tr><td colspan="5" class="text-center" style="padding: 1rem; color: #64748b; font-size: 0.85rem; font-weight: 500; background: #f8fafc;">Exibindo os primeiros ${maxAlunos} alunos de um total de ${alunosFiltrados.length}.</td></tr>`;
+        }
+        
+        // Unidades
+        const maxUnidades = 100;
+        let unidadesFiltradas = detail.unidades || [];
+        if (term) {
+           unidadesFiltradas = unidadesFiltradas.filter(r => r.escola === term);
+        }
+        const unidadesRender = unidadesFiltradas.slice(0, maxUnidades);
+        unitTbody.innerHTML = unidadesRender.length ? unidadesRender.map(r => `
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="color: #334155; font-weight: 500; vertical-align: middle;">${c.esc(r.uniao)}</td>
+            <td style="color: #334155; vertical-align: middle;">${c.esc(r.associacao)}</td>
+            <td style="color: #334155; font-weight: 600; vertical-align: middle;">${c.esc(r.escola)}</td>
+            <td class="text-center" style="color: #334155; font-weight: 600; vertical-align: middle;">${c.num(r.fizeram)}</td>
+            <td class="text-center" style="color: #64748b; vertical-align: middle;">${c.num(r.alunos)}</td>
+            <td class="text-center" style="vertical-align: middle;">
+              <div style="display: inline-flex; background: #f1f5f9; border-radius: 4px; padding: 2px 8px; font-weight: 600; color: #0f172a; font-size: 0.85rem;">
+                ${c.pct(r.alunos ? r.fizeram * 100 / r.alunos : 0)}
+              </div>
+            </td>
+            <td class="text-center" style="font-weight: 700; color: #16a34a; font-size: 0.95rem; vertical-align: middle;">${r.media != null ? r.media + ' %' : '-'}</td>
+            <td class="text-center" style="vertical-align: middle;">
+              <span style="background: ${r.fizeram > 0 ? '#16a34a' : '#f1f5f9'}; color: ${r.fizeram > 0 ? 'white' : '#64748b'}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                ${r.fizeram > 0 ? 'Encerrada' : 'Aguardando'}
+              </span>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="8" class="text-center" style="padding: 2rem; color: #64748b;">Nenhuma unidade encontrada para os filtros atuais.</td></tr>';
+
+        if (unidadesFiltradas.length > maxUnidades) {
+          unitTbody.innerHTML += `<tr><td colspan="8" class="text-center" style="padding: 1rem; color: #64748b; font-size: 0.85rem; font-weight: 500; background: #f8fafc;">Exibindo as primeiras ${maxUnidades} unidades de um total de ${unidadesFiltradas.length}.</td></tr>`;
+        }
+      }
+      function switchSimuladoTab(tab) {
+        if (tab === 'aluno') {
+          document.getElementById('tabContentAluno').style.display = 'block';
+          document.getElementById('tabContentUnidade').style.display = 'none';
+          document.getElementById('tabBtnAluno').style.borderBottom = '3px solid #528965';
+          document.getElementById('tabBtnAluno').style.color = '#528965';
+          document.getElementById('tabBtnUnidade').style.borderBottom = '3px solid transparent';
+          document.getElementById('tabBtnUnidade').style.color = '#64748b';
+        } else {
+          document.getElementById('tabContentAluno').style.display = 'none';
+          document.getElementById('tabContentUnidade').style.display = 'block';
+          document.getElementById('tabBtnUnidade').style.borderBottom = '3px solid #528965';
+          document.getElementById('tabBtnUnidade').style.color = '#528965';
+          document.getElementById('tabBtnAluno').style.borderBottom = '3px solid transparent';
+          document.getElementById('tabBtnAluno').style.color = '#64748b';
+        }
+      }
+    </script>
+</main>
+  </div>
+
+  <div id="modalReportGenerator" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalScopeTitle">
+    <div class="modal executive-modal">
+      <div class="modal-header"><div><h2 class="modal-title">Relatório Executivo PDF</h2><p class="executive-modal__header-note">Configure o escopo antes de gerar o documento.</p></div><button id="btnCloseModalReport" class="modal-close" type="button" aria-label="Fechar">&times;</button></div>
+      <div class="modal-body executive-modal__body">
+        <div class="executive-modal__evaluation" aria-label="Avaliação disponível"><span>AVALIAÇÃO</span><button id="btnTipoSimulado" type="button" class="btn btn-primary">Simulado <span class="badge">Ativo</span></button><button id="btnTipoPaaeb" type="button" class="btn btn-outline" disabled title="Em breve">PAAEB <span class="badge">Em breve</span></button></div>
+        <div class="executive-modal__summary"><span id="modalScopeBadge" class="executive-modal__scope"></span><h3 id="modalScopeTitle"></h3><p id="modalScopeDesc"></p></div>
+        <div class="executive-modal__filter-section"><h4>Instituições</h4><div class="executive-modal__institution-grid">
+          <div class="filter-item"><label for="modalFilterUniao">União</label><select id="modalFilterUniao" class="form-select"></select></div>
+          <div class="filter-item"><label for="modalFilterAssoc">Associação</label><select id="modalFilterAssoc" class="form-select"></select></div>
+          <div class="filter-item"><label for="modalFilterEscola">Escola</label><select id="modalFilterEscola" class="form-select"></select></div>
+        </div></div>
+        <div class="executive-modal__filter-section"><h4>Período e turma</h4><div class="executive-modal__period-grid">
+          <div class="filter-item"><label for="modalFilterAno">Ano</label><select id="modalFilterAno" class="form-select"></select></div>
+          <div class="filter-item"><label for="modalFilterBimestre">Bimestre</label><select id="modalFilterBimestre" class="form-select"></select></div>
+          <div class="filter-item"><label for="modalFilterSerie">Série</label><select id="modalFilterSerie" class="form-select"></select></div>
+          <div class="filter-item"><label for="modalFilterTurma">Turma</label><select id="modalFilterTurma" class="form-select"></select></div>
+        </div></div>
+        <p id="modalReportLoading" class="report-status hidden" role="status">Gerando PDF; aguarde…</p>
+      </div>
+      <div class="modal-footer"><button id="btnCancelModalReport" type="button" class="btn btn-outline">Cancelar</button><button id="btnConfirmGenerateReport" type="button" class="btn btn-primary">Gerar e baixar PDF</button></div>
+    </div>
+  </div>
+
+  <div id="studentModal" class="modal-backdrop" onclick="if(event.target===this)Reports.closeStudent()">
+    <div class="modal student-modal">
+      <div class="modal-header">
+        <h3 id="studentModalTitle" class="modal-title"></h3>
+        <button onclick="Reports.closeStudent()" class="modal-close" aria-label="Fechar" title="Fechar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="studentModalBody"></div>
+    </div>
+  </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js?v=6"></script>
+    <script src="js/auth.js?v=7"></script>
+    <script src="js/app.js?v=9"></script>
+    <script src="js/reports.js?v=10"></script>
+    <script src="js/report_modal.js?v=6"></script>
+    <script src="js/users.js?v=7"></script>
+    <script src="js/profile.js?v=6"></script>
+    <script src="js/paaeb.js?v=8"></script>
+    <script src="js/enem.js?v=5"></script>
+    <script src="js/schools.js?v=6"></script>
+
+  <!-- ================= USER CREATE/EDIT MODAL ================= -->
+  <div class="modal-backdrop" id="userModal">
+    <div class="modal user-modal" role="dialog" aria-modal="true" aria-labelledby="userModalTitle">
+      <div class="modal-header">
+        <div>
+          <span class="user-modal__eyebrow">USUÁRIOS E ACESSOS</span>
+          <h2 id="userModalTitle" class="modal-title">Cadastrar Novo Usuário</h2>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="userModal" aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="userModalAlert" class="alert alert-danger hidden" style="margin-bottom: 1rem;"></div>
+        
+        <div id="conflictAlertBox" class="alert alert-warning hidden" style="margin-bottom: 1rem; border-left: 4px solid var(--color-accent-orange);">
+          <div style="font-weight: 700; color: #b45309; margin-bottom: 0.5rem;">
+            Conflito de Restrição de Escopo
+          </div>
+          <div id="conflictAlertMsg" style="font-size: 0.85rem; margin-bottom: 0.5rem;"></div>
+          <ul id="conflictSubordinatesList" style="font-size: 0.8rem; padding-left: 1.5rem; max-height: 150px; overflow-y: auto;"></ul>
+        </div>
+
+        <form id="userForm">
+          <section class="user-modal__section" aria-labelledby="userIdentityTitle">
+            <div class="user-modal__section-heading">
+              <div><span class="user-modal__step">01</span><h3 id="userIdentityTitle">Dados do usuário</h3></div>
+              <p>Identificação e nível de acesso na plataforma.</p>
+            </div>
+          <div class="user-modal__grid">
+            <div class="form-group">
+              <label class="form-label" for="formUserName">Nome Completo <span class="required">*</span></label>
+              <input type="text" id="formUserName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="formUserEmail">E-mail <span class="required">*</span></label>
+              <input type="email" id="formUserEmail" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="user-modal__grid">
+            <div class="form-group">
+              <label class="form-label" for="formUserHierarchy">Hierarquia do Usuário <span class="required">*</span></label>
+              <select id="formUserHierarchy" class="form-select" required></select>
+            </div>
+            <div class="form-group user-modal__status-group">
+              <label class="user-modal__toggle-card">
+                <input type="checkbox" id="formUserActive" checked>
+                <span><strong>Usuário ativo</strong><small>Pode entrar na plataforma e consultar suas páginas.</small></span>
+              </label>
+            </div>
+          </div>
+          </section>
+
+          <section class="user-modal__section" aria-labelledby="userPermissionsTitle">
+            <div class="user-modal__section-heading">
+              <div><span class="user-modal__step">02</span><h3 id="userPermissionsTitle">Permissões</h3></div>
+              <p>Defina as ações e páginas disponíveis para este usuário.</p>
+            </div>
+                    <div id="podeCriarContainer" class="form-group hidden user-modal__permission-box">
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+              <input type="checkbox" id="formUserPodeCriar" style="width:16px; height:16px;">
+              <div style="display:flex; flex-direction:column;">
+                <span class="text-sm font-semibold text-main">Permitir criar e gerenciar usuários</span>
+              </div>
+            </label>
+            <div id="limiteCriacaoContainer" style="margin-top: 0.5rem; display: none;">
+              <label class="form-label" style="font-size: 0.8rem;">Limite de criação de usuários (deixe vazio para sem limite)</label>
+              <input type="number" id="formUserLimiteCriacao" class="form-control" style="max-width: 150px; padding: 0.25rem 0.5rem; min-height: 30px;">
+            </div>
+          </div>
+          <label id="podeSimularContainer" class="user-modal__permission-box user-modal__check-row hidden">
+            <input type="checkbox" id="formUserPodeSimular">
+            <span><strong>Permitir simular visões</strong><small>Consulta apenas níveis abaixo da própria hierarquia e dentro do escopo atribuído.</small></span>
+          </label>
+          <div class="user-modal__expiration">
+            <div><strong>Prazo de acesso</strong><small>Após a data escolhida, o login e as sessões deixam de funcionar.</small></div>
+            <label class="user-modal__check-row"><input type="checkbox" id="formUserUnlimited" checked> Sem prazo</label>
+            <div id="userExpirationDateGroup" class="form-group hidden">
+              <label class="form-label" for="formUserExpirationDate">Último dia de acesso <span class="required">*</span></label>
+              <input type="date" id="formUserExpirationDate" class="form-control">
+            </div>
+          </div>
+          
+          <div class="form-group user-modal__pages-group">
+             <label class="form-label">Páginas Permitidas <span class="required">*</span></label>
+             <div class="user-modal__page-grid" id="paginasPermitidasCheckboxes">
+                <label class="user-modal__page-option"><input type="checkbox" name="userPages" value="reports" checked> Visão Geral</label>
+                <label class="user-modal__page-option"><input type="checkbox" name="userPages" value="paaeb" checked> PAAEB</label>
+                <label class="user-modal__page-option"><input type="checkbox" name="userPages" value="enem" checked> ENEM</label>
+                <label class="user-modal__page-option"><input type="checkbox" name="userPages" value="saeb" checked> SAEB</label>
+                <label class="user-modal__page-option"><input type="checkbox" name="userPages" value="data" checked> Dados</label>
+             </div>
+          </div>
+          </section>
+
+          <section id="accessAssignmentContainer" class="user-modal__section" aria-labelledby="userScopeTitle">
+            <div class="user-modal__section-heading">
+              <div><span class="user-modal__step">03</span><h3 id="userScopeTitle">Escopo de acesso</h3></div>
+              <p>Selecione a instituição e clique em “Adicionar unidade”.</p>
+            </div>
+            
+            <div class="user-modal__scope-grid">
+              <div class="form-group">
+                <label class="form-label">União</label>
+                <select id="accessSelectUniao" class="form-select"><option value="">-- Selecione --</option></select>
+              </div>
+              <div class="form-group" id="assocSelectGroup">
+                <label class="form-label">Associação</label>
+                <select id="accessSelectAssoc" class="form-select"><option value="">-- Selecione --</option></select>
+              </div>
+              <div class="form-group" id="escolaSelectGroup">
+                <label class="form-label">Escola</label>
+                <select id="accessSelectEscola" class="form-select"><option value="">-- Selecione --</option></select>
+              </div>
+            </div>
+            <button type="button" id="btnAddAccessTag" class="btn btn-outline user-modal__add-access">+ Adicionar unidade</button>
+
+            <div class="user-modal__assigned">
+              <div class="text-sm font-semibold mb-2">Unidades atribuídas</div>
+              <div id="assignedAccessTagsList" class="user-modal__tag-list"></div>
+            </div>
+          </section>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close-modal="userModal">Cancelar</button>
+        <button type="submit" form="userForm" id="btnSaveUser" class="btn btn-primary">Salvar Usuário</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TEMP PASSWORD MODAL ================= -->
+  <div class="modal-backdrop" id="tempPasswordModal">
+    <div class="modal" style="max-width: 400px; text-align: center;">
+      <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+        <h2 class="modal-title" style="width: 100%;">Senha Temporária</h2>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">
+          A senha temporária para <strong><span id="tempPasswordUserName"></span></strong> foi gerada.
+        </p>
+        <div style="background: var(--bg-card); padding: 1rem; border: 2px dashed var(--border-color); border-radius: 8px; margin-bottom: 1.5rem;">
+          <span id="displayTempPassword" style="font-size: 1.5rem; font-family: monospace; font-weight: 700; color: var(--color-primary);"></span>
+        </div>
+        <button id="btnCopyTempPassword" class="btn btn-primary w-full" style="justify-content: center; margin-bottom: 0.5rem;">Copiar Senha</button>
+        <button type="button" class="btn btn-outline w-full" data-close-modal="tempPasswordModal" style="justify-content: center;">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div class="modal-backdrop" id="customConfirmModal">
+    <div class="modal" style="max-width: 450px; text-align: center;">
+      <div class="modal-header" style="border-bottom: none;">
+        <h2 class="modal-title" style="width: 100%; color: var(--color-accent-orange);">Ateno</h2>
+      </div>
+      <div class="modal-body">
+        <p id="customConfirmMessage" style="margin-bottom: 1.5rem;"></p>
+        <div style="display: flex; gap: 1rem;">
+          <button type="button" class="btn btn-outline w-full" id="customConfirmCancel" style="justify-content: center;">Cancelar</button>
+          <button type="button" class="btn btn-primary w-full" id="customConfirmOk" style="justify-content: center; background: var(--color-accent-orange); border-color: var(--color-accent-orange);">Confirmar</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ================= EXPANDED SCHOOL LIST MODAL ================= -->
+  <div class="modal-backdrop" id="schoolListModal">
+    <div class="modal" style="max-width: 800px; height: 80vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <h2 class="modal-title">Instituições Acessíveis</h2>
+        <button class="modal-close" onclick="document.getElementById('schoolListModal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="modal-body" style="flex: 1; overflow-y: auto; padding: 1.5rem;">
+        <div id="schoolListModalBody" style="font-size: 0.95rem;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('schoolListModal').classList.remove('active')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
