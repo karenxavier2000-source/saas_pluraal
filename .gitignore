@@ -8,5 +8,8 @@ env/
 .vscode/
 scratch/
 dump_pluraal.sql
-server.*.log
+supa_data.sql
+gabarito_data.csv
 *.log
+server.*.log
+.vercel
